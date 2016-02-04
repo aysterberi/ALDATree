@@ -66,9 +66,9 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      *
      * @return det minsta elementet i det (sub)träd som noden utgör root i.
      */
-    private T findMin() {
+    private BinarySearchTreeNode<T> findMin() {
         if (left == null) {
-            return data;
+            return this;
         } else {
             return left.findMin();
         }
@@ -100,6 +100,12 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
         this.right = null;
     }
 
+    private void replaceL(BinarySearchTreeNode<T> node) {
+        this.data = node.data;
+        this.right = node.right;
+        this.left = node.left;
+    }
+
     /**
      * Tar bort ett element ur trädet. Om elementet inte existerar s lämnas
      * trädet oförändrat.
@@ -108,30 +114,32 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return en referens till nodens subträd efter borttaget.
      */
     public BinarySearchTreeNode<T> remove(T data) {
-        if (!contains(data)) {
-//            throw new NullPointerException();
-            return this; // return whole tree, there's nothing
-        }
-
-        if (data.compareTo(this.data) < 0) {
-            if (hasLeft()) {
-                return left.remove(data);
-            } else {
+        //TODO: VERIFY
+        // code adapted after Recursive BST Operations
+        // example by Hojjat Ghaderi at University of Toronto
+        if (data == null) {
+        } else if (data.compareTo(this.data) < 0) {
+            if (hasLeft())
+                left = left.remove(data);
+            else {
                 return this;
             }
-        }
-        else if (data.compareTo(this.data) > 0) {
+        } else if (data.compareTo(this.data) > 0) {
             if (hasRight()) {
-                return right.remove(data);
+                right = right.remove(data);
             } else {
                 return this;
             }
-        }
-        else {
-            if (hasChildren())
-            {
-                this.data = right.findMin();
-                return right.remove(this.data);
+        } else {
+            if (right == null) {
+                if (left != null) {
+                    replaceL(left);
+                }
+                return this;
+            } else {
+                BinarySearchTreeNode<T> successor = right.findMin();
+                this.data = successor.data;
+                right = successor.remove(data);
             }
         }
         return this;
@@ -207,6 +215,20 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return strängrepresentationen för det (sub)träd som noden utgör root i.
      */
     public String toString() {
-        return "";
+        //TODO: write
+        String s = "[";
+
+        return s;
+    }
+
+    private String alltheData() {
+        StringBuilder aString = new StringBuilder();
+        if (this == null) {
+            return "[]";
+        }
+        aString.append(left.toString());
+        aString.append(this.data.toString());
+        aString.append(right.toString());
+        return String.valueOf(aString);
     }
 }
