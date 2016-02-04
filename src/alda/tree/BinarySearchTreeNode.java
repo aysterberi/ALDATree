@@ -7,7 +7,7 @@ package alda.tree;
 
 /**
  * Denna klass representerar noderna i ett binärt sökträd utan dubletter.
- *
+ * <p>
  * Detta är den enda av de tre klasserna ni ska göra några ändringar i. (Om ni
  * inte vill lägga till fler testfall.) De ändringar som är tillåtna är dock
  * begränsade av följande regler:
@@ -18,9 +18,8 @@ package alda.tree;
  * <li>Ni FÅR lägga till fler metoder, dessa ska då vara privata.
  * </ul>
  *
- * @author henrikbe
- *
  * @param <T>
+ * @author henrikbe
  */
 public class BinarySearchTreeNode<T extends Comparable<T>> {
 
@@ -37,7 +36,6 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * lämnas trädet oförändrat.
      *
      * @param data datat för noden som ska läggas till.
-     *
      * @return true om en ny nod lades till trädet.
      */
     public boolean add(T data) {
@@ -76,17 +74,67 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
         }
     }
 
+    private boolean isNull(T data) {
+        return (data == null) || data.equals(null);
+    }
+
+    private boolean hasChildren() {
+        return (left != null && right != null);
+    }
+
+    private boolean dataEquals(T Data) {
+        return (this.data.equals(data) || this.data == data);
+    }
+
+    private boolean hasLeft() {
+        return left != null;
+    }
+
+    private boolean hasRight() {
+        return right != null;
+    }
+
+    private void clear() {
+        this.data = null;
+        this.left = null;
+        this.right = null;
+    }
+
     /**
      * Tar bort ett element ur trädet. Om elementet inte existerar s lämnas
      * trädet oförändrat.
      *
      * @param data elementet som ska tas bort ur trädet.
-     *
      * @return en referens till nodens subträd efter borttaget.
      */
     public BinarySearchTreeNode<T> remove(T data) {
+        if (!contains(data)) {
+//            throw new NullPointerException();
+            return this; // return whole tree, there's nothing
+        }
 
-        return null;
+        if (data.compareTo(this.data) < 0) {
+            if (hasLeft()) {
+                return left.remove(data);
+            } else {
+                return this;
+            }
+        }
+        else if (data.compareTo(this.data) > 0) {
+            if (hasRight()) {
+                return right.remove(data);
+            } else {
+                return this;
+            }
+        }
+        else {
+            if (hasChildren())
+            {
+                this.data = right.findMin();
+                return right.remove(this.data);
+            }
+        }
+        return this;
     }
 
     /**
@@ -94,16 +142,15 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * root i.
      *
      * @param data det sökta elementet.
-     *
      * @return true om det sökta elementet finns i det (sub)träd som noden utgör
-     *         root i.
+     * root i.
      */
     public boolean contains(T data) {
-        if(data.equals(this.data) || data == this.data) {
+        if (data.equals(this.data) || data == this.data) {
             return true;
-        } else if(data.compareTo(this.data) < 0) {
+        } else if (data.compareTo(this.data) < 0) {
             return this.left.contains(data);
-        } else if(data.compareTo(this.data) > 0) {
+        } else if (data.compareTo(this.data) > 0) {
             return this.right.contains(data);
         }
         return false;
@@ -126,7 +173,7 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
         } else if (left == null && (right != null)) {
             return 1 + right.size();
         }
-        return 0;
+        return 1;
     }
 
     /**
@@ -135,7 +182,21 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return djupet.
      */
     public int depth() {
+        if (left == null && right == null) {
+            return 0;
+        } else if (left != null && right != null) {
+            return 1 + recursiveDepth();
+        } else if (left == null) {
+            return 1 + right.depth();
+        } else if (right == null) {
+            return 1 + left.depth();
+        }
+
         return -1;
+    }
+
+    private int recursiveDepth() {
+        return Math.max(left.depth(), right.depth());
     }
 
     /**
