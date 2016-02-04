@@ -20,7 +20,6 @@ public class BinarySearchTreeTester {
         assertEquals("[]", tree.toString());
     }
 
-
     @Before
     public void setUp() throws Exception {
         tree.add(5);
