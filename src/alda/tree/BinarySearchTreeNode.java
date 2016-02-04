@@ -1,8 +1,8 @@
 package alda.tree;
 
 /**
-  Copyright (C) Billy G. J. Beltran (bibe1744) & Joakim Berglund (jobe7147)
-  Contact details: billy@caudimordax.org, joakimberglund@live.se
+ * Copyright (C) Billy G. J. Beltran (bibe1744) & Joakim Berglund (jobe7147)
+ * Contact details: billy@caudimordax.org, joakimberglund@live.se
  */
 
 /**
@@ -42,17 +42,17 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      */
     public boolean add(T data) {
 
-        if(data.equals(this.data) || data == this.data) {
+        if (data.equals(this.data) || data == this.data) {
             return false;
-        } else if(data.compareTo(this.data) < 0) {
-            if(this.left == null) {
+        } else if (data.compareTo(this.data) < 0) {
+            if (this.left == null) {
                 left = new BinarySearchTreeNode<>(data);
                 return true;
             } else {
                 return left.add(data);
             }
-        } else if(data.compareTo(this.data) > 0) {
-            if(this.right == null) {
+        } else if (data.compareTo(this.data) > 0) {
+            if (this.right == null) {
                 right = new BinarySearchTreeNode<>(data);
                 return true;
             } else {
@@ -85,6 +85,7 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return en referens till nodens subträd efter borttaget.
      */
     public BinarySearchTreeNode<T> remove(T data) {
+
         return null;
     }
 
@@ -107,6 +108,17 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return det totala antalet noder i det (sub)träd som noden utgör root i.
      */
     public int size() {
+        if ((left == null) && (right == null)) {
+            return 1;
+        }
+        if ((left != null) && (right != null)) {
+            return 1 + left.size() + right.size();
+        }
+        if (left != null && (right == null)) {
+            return 1 + left.size();
+        } else if (left == null && (right != null)) {
+            return 1 + right.size();
+        }
         return 0;
     }
 
