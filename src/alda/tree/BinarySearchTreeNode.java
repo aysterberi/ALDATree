@@ -1,6 +1,11 @@
 package alda.tree;
 
 /**
+  Copyright (C) Billy G. J. Beltran (bibe1744) & Joakim Berglund (jobe7147)
+  Contact details: billy@caudimordax.org, joakimberglund@live.se
+ */
+
+/**
  * Denna klass representerar noderna i ett binärt sökträd utan dubletter.
  *
  * Detta är den enda av de tre klasserna ni ska göra några ändringar i. (Om ni
@@ -31,11 +36,29 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * Lägger till en nod i det binära sökträdet. Om noden redan existerar så
      * lämnas trädet oförändrat.
      *
-     * @param data
-     *            datat för noden som ska läggas till.
+     * @param data datat för noden som ska läggas till.
+     *
      * @return true om en ny nod lades till trädet.
      */
     public boolean add(T data) {
+
+        if(data.equals(this.data) || data == this.data) {
+            return false;
+        } else if(data.compareTo(this.data) < 0) {
+            if(this.left == null) {
+                left = new BinarySearchTreeNode<>(data);
+                return true;
+            } else {
+                return left.add(data);
+            }
+        } else if(data.compareTo(this.data) > 0) {
+            if(this.right == null) {
+                right = new BinarySearchTreeNode<>(data);
+                return true;
+            } else {
+                return right.add(data);
+            }
+        }
         return false;
     }
 
@@ -53,8 +76,8 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * Tar bort ett element ur trädet. Om elementet inte existerar s lämnas
      * trädet oförändrat.
      *
-     * @param data
-     *            elementet som ska tas bort ur trädet.
+     * @param data elementet som ska tas bort ur trädet.
+     *
      * @return en referens till nodens subträd efter borttaget.
      */
     public BinarySearchTreeNode<T> remove(T data) {
@@ -65,8 +88,8 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * Kontrollerar om ett givet element finns i det (sub)träd som noden utgör
      * root i.
      *
-     * @param data
-     *            det sökta elementet.
+     * @param data det sökta elementet.
+     *
      * @return true om det sökta elementet finns i det (sub)träd som noden utgör
      *         root i.
      */
