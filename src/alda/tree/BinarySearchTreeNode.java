@@ -99,6 +99,13 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      *         root i.
      */
     public boolean contains(T data) {
+        if(data.equals(this.data) || data == this.data) {
+            return true;
+        } else if(data.compareTo(this.data) < 0) {
+            return this.left.contains(data);
+        } else if(data.compareTo(this.data) > 0) {
+            return this.right.contains(data);
+        }
         return false;
     }
 
