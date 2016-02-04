@@ -69,7 +69,11 @@ public class BinarySearchTreeNode<T extends Comparable<T>> {
      * @return det minsta elementet i det (sub)träd som noden utgör root i.
      */
     private T findMin() {
-        return null;
+        if (left == null) {
+            return data;
+        } else {
+            return left.findMin();
+        }
     }
 
     /**
