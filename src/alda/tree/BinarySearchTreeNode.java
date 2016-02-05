@@ -23,212 +23,235 @@ package alda.tree;
  */
 public class BinarySearchTreeNode<T extends Comparable<T>> {
 
-    private T data;
-    private BinarySearchTreeNode<T> left;
-    private BinarySearchTreeNode<T> right;
+	private T data;
+	private BinarySearchTreeNode<T> left;
+	private BinarySearchTreeNode<T> right;
 
-    public BinarySearchTreeNode(T data) {
-        this.data = data;
-    }
+	public BinarySearchTreeNode(T data) {
+		this.data = data;
+	}
 
-    /**
-     * Lägger till en nod i det binära sökträdet. Om noden redan existerar så
-     * lämnas trädet oförändrat.
-     *
-     * @param data datat för noden som ska läggas till.
-     * @return true om en ny nod lades till trädet.
-     */
-    public boolean add(T data) {
+	/**
+	 * Lägger till en nod i det binära sökträdet. Om noden redan existerar så
+	 * lämnas trädet oförändrat.
+	 *
+	 * @param data datat för noden som ska läggas till.
+	 * @return true om en ny nod lades till trädet.
+	 */
+	public boolean add(T data) {
 
-        if (data.equals(this.data) || data == this.data) {
-            return false;
-        } else if (data.compareTo(this.data) < 0) {
-            if (this.left == null) {
-                left = new BinarySearchTreeNode<>(data);
-                return true;
-            } else {
-                return left.add(data);
-            }
-        } else if (data.compareTo(this.data) > 0) {
-            if (this.right == null) {
-                right = new BinarySearchTreeNode<>(data);
-                return true;
-            } else {
-                return right.add(data);
-            }
-        }
-        return false;
-    }
+		if (data.equals(this.data) || data == this.data) {
+			return false;
+		} else if (data.compareTo(this.data) < 0) {
+			if (this.left == null) {
+				left = new BinarySearchTreeNode<>(data);
+				return true;
+			} else {
+				return left.add(data);
+			}
+		} else if (data.compareTo(this.data) > 0) {
+			if (this.right == null) {
+				right = new BinarySearchTreeNode<>(data);
+				return true;
+			} else {
+				return right.add(data);
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Privat hjälpmetod som är till nytta vid borttag. Ni behöver inte
-     * skriva/utnyttja denna metod om ni inte vill.
-     *
-     * @return det minsta elementet i det (sub)träd som noden utgör root i.
-     */
-    private BinarySearchTreeNode<T> findMin() {
-        if (left == null) {
-            return this;
-        } else {
-            return left.findMin();
-        }
-    }
+	/**
+	 * Privat hjälpmetod som är till nytta vid borttag. Ni behöver inte
+	 * skriva/utnyttja denna metod om ni inte vill.
+	 *
+	 * @return det minsta elementet i det (sub)träd som noden utgör root i.
+	 */
+	private BinarySearchTreeNode<T> findMin() {
+		if (left == null) {
+			return this;
+		} else {
+			return left.findMin();
+		}
+	}
 
-    private boolean isNull(T data) {
-        return (data == null) || data.equals(null);
-    }
+	private boolean isNull(T data) {
+		return (data == null) || data.equals(null);
+	}
 
-    private boolean hasChildren() {
-        return (left != null && right != null);
-    }
+	private boolean hasChildren() {
+		return (left != null && right != null);
+	}
 
-    private boolean dataEquals(T Data) {
-        return (this.data.equals(data) || this.data == data);
-    }
+	private boolean dataEquals(T Data) {
+		return (this.data.equals(data) || this.data == data);
+	}
 
-    private boolean hasLeft() {
-        return left != null;
-    }
+	private boolean hasLeft() {
+		return left != null;
+	}
 
-    private boolean hasRight() {
-        return right != null;
-    }
+	private boolean hasRight() {
+		return right != null;
+	}
 
-    private void clear() {
-        this.data = null;
-        this.left = null;
-        this.right = null;
-    }
+	private void clear() {
+		this.data = null;
+		this.left = null;
+		this.right = null;
+	}
 
-    private void replaceL(BinarySearchTreeNode<T> node) {
-        this.data = node.data;
-        this.right = node.right;
-        this.left = node.left;
-    }
+	private void replaceL(BinarySearchTreeNode<T> node) {
+		this.data = node.data;
+		this.right = node.right;
+		this.left = node.left;
+	}
 
-    /**
-     * Tar bort ett element ur trädet. Om elementet inte existerar s lämnas
-     * trädet oförändrat.
-     *
-     * @param data elementet som ska tas bort ur trädet.
-     * @return en referens till nodens subträd efter borttaget.
-     */
-    public BinarySearchTreeNode<T> remove(T data) {
-        //TODO: VERIFY
-        // code adapted after Recursive BST Operations
-        // example by Hojjat Ghaderi at University of Toronto
-        if (data == null) {
-        } else if (data.compareTo(this.data) < 0) {
-            if (hasLeft())
-                left = left.remove(data);
-            else {
-                return this;
-            }
-        } else if (data.compareTo(this.data) > 0) {
-            if (hasRight()) {
-                right = right.remove(data);
-            } else {
-                return this;
-            }
-        } else {
-            if (right == null) {
-                if (left != null) {
-                    replaceL(left);
-                }
-                return this;
-            } else {
-                BinarySearchTreeNode<T> successor = right.findMin();
-                this.data = successor.data;
-                right = successor.remove(data);
-            }
-        }
-        return this;
-    }
+	/**
+	 * Tar bort ett element ur trädet. Om elementet inte existerar s lämnas
+	 * trädet oförändrat.
+	 *
+	 * @param data elementet som ska tas bort ur trädet.
+	 * @return en referens till nodens subträd efter borttaget.
+	 */
+	public BinarySearchTreeNode<T> remove(T data) {
+		//TODO: VERIFY
+		// code adapted after Recursive BST Operations
+		// example by Hojjat Ghaderi at University of Toronto
+		if (data == null) {
+		} else if (data.compareTo(this.data) < 0) {
+			if (hasLeft())
+				left = left.remove(data);
+			else {
+				return this;
+			}
+		} else if (data.compareTo(this.data) > 0) {
+			if (hasRight()) {
+				right = right.remove(data);
+			} else {
+				return this;
+			}
+		} else {
+			if (right == null) {
+				if (left != null) {
+					replaceL(left);
+				}
+				return this;
+			} else {
+				BinarySearchTreeNode<T> successor = right.findMin();
+				this.data = successor.data;
+				right = successor.remove(data);
+			}
+		}
+		return this;
+	}
 
-    /**
-     * Kontrollerar om ett givet element finns i det (sub)träd som noden utgör
-     * root i.
-     *
-     * @param data det sökta elementet.
-     * @return true om det sökta elementet finns i det (sub)träd som noden utgör
-     * root i.
-     */
-    public boolean contains(T data) {
-        if (data.equals(this.data) || data == this.data) {
-            return true;
-        } else if (data.compareTo(this.data) < 0) {
-            return this.left.contains(data);
-        } else if (data.compareTo(this.data) > 0) {
-            return this.right.contains(data);
-        }
-        return false;
-    }
+	/**
+	 * Kontrollerar om ett givet element finns i det (sub)träd som noden utgör
+	 * root i.
+	 *
+	 * @param data det sökta elementet.
+	 * @return true om det sökta elementet finns i det (sub)träd som noden utgör
+	 * root i.
+	 */
+	public boolean contains(T data) {
+		if (data.equals(this.data) || data == this.data) {
+			return true;
+		} else if (data.compareTo(this.data) < 0) {
+			return this.left.contains(data);
+		} else if (data.compareTo(this.data) > 0) {
+			return this.right.contains(data);
+		}
+		return false;
+	}
 
-    /**
-     * Storleken på det (sub)träd som noden utgör root i.
-     *
-     * @return det totala antalet noder i det (sub)träd som noden utgör root i.
-     */
-    public int size() {
-        if ((left == null) && (right == null)) {
-            return 1;
-        }
-        if ((left != null) && (right != null)) {
-            return 1 + left.size() + right.size();
-        }
-        if (left != null && (right == null)) {
-            return 1 + left.size();
-        } else if (left == null && (right != null)) {
-            return 1 + right.size();
-        }
-        return 1;
-    }
+	/**
+	 * Storleken på det (sub)träd som noden utgör root i.
+	 *
+	 * @return det totala antalet noder i det (sub)träd som noden utgör root i.
+	 */
+	public int size() {
+		if ((left == null) && (right == null)) {
+			return 1;
+		}
+		if ((left != null) && (right != null)) {
+			return 1 + left.size() + right.size();
+		}
+		if (left != null && (right == null)) {
+			return 1 + left.size();
+		} else if (left == null && (right != null)) {
+			return 1 + right.size();
+		}
+		return 1;
+	}
 
-    /**
-     * Det högsta djupet i det (sub)träd som noden utgör root i.
-     *
-     * @return djupet.
-     */
-    public int depth() {
-        if (left == null && right == null) {
-            return 0;
-        } else if (left != null && right != null) {
-            return 1 + recursiveDepth();
-        } else if (left == null) {
-            return 1 + right.depth();
-        } else if (right == null) {
-            return 1 + left.depth();
-        }
+	/**
+	 * Det högsta djupet i det (sub)träd som noden utgör root i.
+	 *
+	 * @return djupet.
+	 */
+	public int depth() {
+		if (left == null && right == null) {
+			return 0;
+		} else if (left != null && right != null) {
+			return 1 + recursiveDepth();
+		} else if (left == null) {
+			return 1 + right.depth();
+		} else if (right == null) {
+			return 1 + left.depth();
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 
-    private int recursiveDepth() {
-        return Math.max(left.depth(), right.depth());
-    }
+	private int recursiveDepth() {
+		return Math.max(left.depth(), right.depth());
+	}
 
-    /**
-     * Returnerar en strängrepresentation för det (sub)träd som noden utgör root
-     * i. Denna representation består av elementens dataobjekt i sorterad
-     * ordning med ", " mellan elementen.
-     *
-     * @return strängrepresentationen för det (sub)träd som noden utgör root i.
-     */
-    public String toString() {
-        //TODO: write
-        String s = "[";
+	/**
+	 * Returnerar en strängrepresentation för det (sub)träd som noden utgör root
+	 * i. Denna representation består av elementens dataobjekt i sorterad
+	 * ordning med ", " mellan elementen.
+	 *
+	 * @return strängrepresentationen för det (sub)träd som noden utgör root i.
+	 */
+	public String toString() {
 
-        return s;
-    }
+		StringBuilder sb = new StringBuilder();
+		if (!hasChildren()) {
+			// we have no children, we're a leaf
+			return data.toString();
+		}
+		toStringSquirrel(this, sb);
+		return sb.toString();
+	}
 
-    private String alltheData() {
-        StringBuilder aString = new StringBuilder();
-        if (this == null) {
-            return "[]";
-        }
-        aString.append(left.toString());
-        aString.append(this.data.toString());
-        aString.append(right.toString());
-        return String.valueOf(aString);
-    }
+	/**
+	 * A toString Squirrel function,  O(n)
+	 * Recursively goes through each node in the tree in-order
+	 * (left subtree, node, right subtree) calling node.data
+	 * and appending commas when necessary.
+	 *
+	 * @param node    represents the start node of the tree to be traversed
+	 * @param builder represents the StringBuilder the parent method (toString)
+	 *                is using to build up a returnable String. All operations will be
+	 *                carried out by appending the data to this object.
+	 */
+	private void toStringSquirrel(BinarySearchTreeNode<T> node, StringBuilder builder) {
+		if (node == null) {
+			return;
+		}
+		if (!hasChildren()) {
+			builder.append(node.data.toString());
+		}
+		if (node.left != null) {
+			toStringSquirrel(node.left, builder);
+			builder.append(", ");
+		}
+		builder.append(node.data.toString());
+		if (node.right != null) {
+			builder.append(", ");
+			toStringSquirrel(node.right, builder);
+		}
+
+	}
 }
